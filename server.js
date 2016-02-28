@@ -2,6 +2,7 @@ var logic = require("./logic.js");
 var express = require('express');
 var bodyParser = require('body-parser');
 
+
 var app = express();
 
 app.set('port', process.env.PORT);
@@ -15,7 +16,7 @@ app.post('/', function(req, res) {
 
 
 
-app.listen(app.get('port'), function() {
+app.listen(process.env.PORT, process.env.IP, function() {
     console.log("Express started");
 });
 
