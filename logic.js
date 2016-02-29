@@ -1,20 +1,6 @@
 var request = require('request');
 var cheerio = require('cheerio');
-var mongoose = require("mongoose");
-
-mongoose.connect('mongodb://jsongiambi-server1-2635346/test');
-
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-
-
-var scrapeSchema = mongoose.Schema({
-     links: [String],
-     page: String
-  });
-  
-var Scrape = mongoose.model("Scrape", scrapeSchema);
-
+var m = require('./model.js');
 
 function callback(err, resp, body) {
   if (err) {
@@ -23,11 +9,14 @@ function callback(err, resp, body) {
   var list = [];
   $ = cheerio.load(body);
   $('.uiCollapsedList a').each(function () {
-    console.log($(this).attr("href"));
-    list.push($(this).attr("href"));
+    var splittedURL = $(this).attr("href").split(/\/+/g);
+    if (splittedURL[splittedURL.length-2]) {
+      console.log(splittedURL[splittedURL.length-2]);
+      list.push(splittedURL[splittedURL.length-2]);
+    }
   });
   if (list.length > 0) {
-    var entry = new Scrape({links: list, page: pgLinks});
+    var entry = new m.likeData({links: list, page: pgLinks});
     entry.save(function (err, fluffy) {
       if (err) return console.error(err);
     });
