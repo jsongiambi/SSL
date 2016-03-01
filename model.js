@@ -7,6 +7,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 
 var pgPostSchema = mongoose.Schema({
     postid: String,
+    serverid: Number,
     postct: Number
 });
 
