@@ -24,12 +24,3 @@ var pgShare = mongoose.model("pgshare", pgShareSchema);
 
 exports.pgShare = pgShare;
 
-
-// var scrapeSchema = mongoose.Schema({
-//      links: [String],
-//      page: String
-//   });
-  
-// var shareData = mongoose.model("scrape", scrapeSchema);
-
-// exports.shareData = shareData;
