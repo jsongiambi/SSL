@@ -16,16 +16,16 @@ app.post('/', function(req, res) {
 });
 
 app.post('/getpages', function(req, res) {
-    m.likeData.find({ "page": req.body.name}, 'links', function (err, data) {
+    m.shareData.find({ "page": req.body.name}, 'links', function (err, data) {
         if (err) return console.error(err);
         res.json({ "page": data});
     });
 });
 
 app.get('/test', function(req, res) {
-    m.likeData.find({ "page": "Veteran's Hangout"}, 'links', function (err, data) {
+    m.shareData.find({ "page": "Veteran's Hangout"}, 'links', function (err, data) {
         if (err) return console.error(err);
-        res.json({ "page": data});
+        res.json(data);
     });
 });
 
