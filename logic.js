@@ -2,6 +2,14 @@ var request = require('request');
 var cheerio = require('cheerio');
 var m = require('./model.js');
 
+function response(res) {
+  res.json({"response": "from server"});
+}
+
+function doSetTimeout(res, i) {
+ setTimeout(function() { response(res); }, 2500 * i) 
+}
+
 function callback(err, resp, body) {
   if (err) {
     throw err;
@@ -30,7 +38,7 @@ function callback(err, resp, body) {
 }
 
 
-exports.scrape = function (options) {
+exports.scrape = function (options, res) {
   /*global pgLinks*/pgLinks = options.page;
   /*global postID*/postID = options.postid;
   m.postObj.findOne({ postid: postID, serverid: 1 }, function (err, data) {
@@ -42,15 +50,24 @@ exports.scrape = function (options) {
           });
           for (var i = 0; i < options.url.length; i++) {
     setTimeout(request.bind(null, {url: options.url[i], headers: {'User-Agent': "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36"}}, callback), 2000 * i);
-  }
+            if (i === options.url.length-1) {
+              console.log(i);
+              doSetTimeout(res, i);
+            }
+          }
         } else if (options.url.length > data.postct){
           for (var i = data.postct; i < options.url.length; i++) {
     setTimeout(request.bind(null, {url: options.url[i], headers: {'User-Agent': "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36"}}, callback), 2000 * i);
-  }
+            if (i === options.url.length-1) {
+              console.log(i);
+            doSetTimeout(res, i);
+          }
+        }
           m.postObj.update({ postid: postID, serverid: 1 }, {postct: options.url.length}, function (err) {
             if (err) console.error(err);
           });
         } else {
+          res.json({"response": "from server"});
           return console.log("'Share' data already processed");
         }
     });
