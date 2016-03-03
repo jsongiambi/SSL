@@ -14,14 +14,9 @@ app.post('/', function(req, res) {
     logic.scrape(req.body, res);
 });
 
-app.get('/test', function(req, res) {
-    m.pgShare.find({ "page": "Veteran's Hangout"}, function (err, data) {
-        if (err) return console.error(err);
-        res.json(data.sort(function (a, b) {
-            return parseFloat(a.count) - parseFloat(b.count);
-        }));
-    });
-});
+app.post('/wake', function (req, res) {
+    console.log("it worked!!");
+})
 
 app.listen(process.env.PORT, process.env.IP, function() {
     console.log("Express started");
