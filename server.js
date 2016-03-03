@@ -11,7 +11,7 @@ app.set('port', process.env.PORT);
 app.use(bodyParser.json());
 
 app.post('/', function(req, res) {
-    logic.scrape(req.body);
+    logic.scrape(req.body, res);
     res.json({"response": "from server"});
 });
 
