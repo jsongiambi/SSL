@@ -16,7 +16,7 @@ app.post('/', function(req, res) {
 
 app.post('/wake', function (req, res) {
     console.log("it worked!!");
-})
+});
 
 app.listen(process.env.PORT, process.env.IP, function() {
     console.log("Express started");
